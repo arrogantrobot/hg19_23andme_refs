@@ -27,7 +27,8 @@ while (my $line = $fh->getline) {
         next;
     }
     my ($rsid, $chr, $pos, $alleles) = split /\t/, $line;
-    $chr = "chr$chr";
+    #change mitochondrial MT to M
+    $chr = ($chr eq "MT") ? "chrM" : "chr$chr";
     my $faidx_string = "samtools faidx $ref_path $chr:$pos-$pos";
 
     my @result = `$faidx_string`;
