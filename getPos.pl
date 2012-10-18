@@ -5,7 +5,19 @@ use warnings;
 
 use IO::File;
 
-my $fh = IO::File->new($ARGV[0]);
+my $raw_file = $ARGV[0];
+
+unless (-e $raw_file) {
+    die "Could not locate raw file: $raw_file";
+}
+
+my $fh;
+if ($raw_file =~ m/zip$/) {
+    $fh = IO::File->new("zcat $ARGV[0]|");
+} else {
+    $fh = IO::File->new($ARGV[0]);
+}
+
 my $ref_path = $ARGV[1];
 
 
